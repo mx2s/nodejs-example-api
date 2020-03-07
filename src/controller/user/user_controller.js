@@ -3,16 +3,15 @@ let mongoose = require('mongoose');
 const User = mongoose.model('User');
 
 const userTransformer = require("../../transformer/user")
+const request = require("../../module/request");
 const response = require("../../module/response");
 
 module.exports = {
-    get: async (req, res) => {
-        let users = await User.find({}).limit(10);
-        await res.json({
-            "data": {
-                "users": users
-            },
-        });
+    get: async (req, res, next) => {
+        let users = await User.find({})
+            .skip(request.getSkip(req))
+            .limit(request.getLimit(req));
+        response.item("users", userTransformer.many(users), res, next)
     },
     create: async (req, res, next) => {
         let newUser = new User({
@@ -40,9 +39,7 @@ module.exports = {
     delete: async (req, res, next) => {
         let user = await User.findOne({_id: req.params.id});
         if (!user) return response.error("User not found", 404, res, next);
-
         await user.delete();
-
         response.item("deleted_user", userTransformer.transform(user), res, next)
     }
 };

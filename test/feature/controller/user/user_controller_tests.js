@@ -34,6 +34,19 @@ describe("UserController tests", () => {
             res.should.have.status(404);
         });
     });
+    describe("GET /api/v1/users", () => {
+        it("should return users", async function () {
+            await userFactory.createOne();
+
+            let res = await chai.request(app).get(`/api/v1/users`);
+            res.should.have.status(200);
+            res.body.should.be.a('object');
+
+            res.body.data.users.should.be.a('array');
+
+            chai.assert.isTrue(res.body.data.users.length > 0);
+        });
+    });
     describe("POST /api/v1/users", () => {
         it("should create user", async function () {
             let testUser = {

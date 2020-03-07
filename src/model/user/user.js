@@ -52,7 +52,3 @@ UserModelSchema.statics = {
 };
 
 const User = mongoose.model('User', UserModelSchema);
-
-User.init().then(() => {
-    console.log('init finished');
-});
