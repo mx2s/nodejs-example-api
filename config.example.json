@@ -1,0 +1,16 @@
+{
+  "development": {
+    "database": {
+      "name": "simple_api",
+      "host": "127.0.0.1",
+      "port": 27017
+    }
+  },
+  "testing": {
+    "database": {
+      "name": "simple_api_test",
+      "host": "127.0.0.1",
+      "port": 27017
+    }
+  }
+}
