@@ -1,10 +1,13 @@
 const express = require('express');
+const middleware = require("./src/middleware")
 let DbConnection = require("./src/module/db/connection");
 let appRoutes = require("./src/config/routes");
 
 DbConnection.initDb();
 
 const app = express();
+
+app.use(middleware.cors)
 
 app.use(express.json())
 

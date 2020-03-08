@@ -43,10 +43,7 @@ UserModelSchema.methods = {
 
 UserModelSchema.statics = {
     async count(data = {}) {
-        let totalCount = 0;
-        await User.countDocuments(data, function (err, c) {
-            totalCount = c;
-        });
+        let totalCount = await User.countDocuments(data);
         return totalCount;
     }
 };

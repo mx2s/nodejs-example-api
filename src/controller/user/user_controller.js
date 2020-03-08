@@ -11,7 +11,14 @@ module.exports = {
         let users = await User.find({})
             .skip(request.getSkip(req))
             .limit(request.getLimit(req));
-        response.item("users", userTransformer.many(users), res, next)
+	await res.json({
+            "data": {
+                "users": userTransformer.many(users)
+            },
+            "meta": {
+                "totalCount": await User.count()
+            }
+        });
     },
     create: async (req, res, next) => {
         let newUser = new User({
@@ -27,7 +34,7 @@ module.exports = {
                 "user": userTransformer.transform(newUser)
             },
             "meta": {
-                "total_count": await User.count()
+                "totalCount": await User.count()
             }
         });
     },

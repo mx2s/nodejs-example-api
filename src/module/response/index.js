@@ -23,14 +23,14 @@ module.exports = {
         next()
     },
     validateAndSave: async (model, res, next) => {
-        let error;
-        await model.save(function (err) {
+        try {
+            await model.save();
+        } catch (err) {
             if (!err) return;
-            error = err;
             res.status(422);
             res.json(ValidationErrorsTransformer.transform(err));
             next()
-        });
-        return error;
+            return err;
+        }
     }
 }
